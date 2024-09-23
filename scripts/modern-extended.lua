@@ -1,4 +1,7 @@
--- Forked from maoiscat's modern.lua by Finn
+-- Modern Extended by Polka
+-- https://github.com/FlyingHaiball/mpv-osc-modern-extended
+
+-- Forked from FinnRaze's modernf.lua
 -- https://github.com/FinnRaze/mpv-osc-modern-f
 
 local assdraw = require 'mp.assdraw'
@@ -10,8 +13,8 @@ local utils = require 'mp.utils'
 -- Parameters
 --
 -- default user option values
--- may change them in modernf.conf
--- cycle visibility via input.conf: script-binding modernf/visibility
+-- may change them in modern-extended.conf
+-- cycle visibility via input.conf: script-binding modern-extended/visibility
 local user_opts = {
     showwindowed = true,        -- show OSC when windowed?
     showfullscreen = true,      -- show OSC when fullscreen?
@@ -85,7 +88,7 @@ local language = {
     }
 }
 -- read options from config and command-line
-opt.read_options(user_opts, 'modernf', function(list) update_options(list) end)
+opt.read_options(user_opts, 'modern-extended', function(list) update_options(list) end)
 
 -- apply lang opts
 local texts = language[user_opts.language]
