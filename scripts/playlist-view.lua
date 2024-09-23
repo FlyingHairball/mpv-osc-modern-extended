@@ -67,9 +67,11 @@ opts = {
 
     show_text = true,
     show_title = true,
+    show_selected_title = true,
     strip_directory = true,
     strip_extension = true,
     text_size = 28,
+    text_border = 28,
 
     background_color = "333333",
     background_opacity = "33",
@@ -83,6 +85,7 @@ opts = {
     flagged_border_color = "96B58D",
     flagged_border_size = 4,
     placeholder_color = "222222",
+    placeholder_opacity = "33",
 
     command_on_open = "",
     command_on_close = "",
@@ -109,18 +112,22 @@ function reload_config()
     gallery.config.background_opacity = opts.background_opacity
     gallery.config.max_thumbnails = math.min(opts.max_thumbnails, 64)
     gallery.config.placeholder_color = opts.placeholder_color
+    gallery.config.placeholder_opacity = opts.placeholder_opacity
     gallery.config.text_size = opts.text_size
+    gallery.config.text_border = opts.text_border
     gallery.config.generate_thumbnails_with_mpv = opts.generate_thumbnails_with_mpv
     if ON_WINDOWS then
         thumbs_dir = string.gsub(opts.thumbs_dir, "^%%APPDATA%%", os.getenv("APPDATA") or "%APPDATA%")
     else
         thumbs_dir = string.gsub(opts.thumbs_dir, "^~", os.getenv("HOME") or "~")
     end
+    thumbs_dir = mp.command_native({ "expand-path", thumbs_dir })
     local res = utils.file_info(thumbs_dir)
     if not res or not res.is_dir then
         if opts.mkdir_thumbs then
-            local args = ON_WINDOWS and { "mkdir", thumbs_dir } or { "mkdir", "-p", thumbs_dir }
-            utils.subprocess({ args = args, playback_only = false })
+            local args = ON_WINDOWS and { 'powershell', '-NoProfile', '-Command', 'mkdir', string.format("\"%s\"", thumbs_dir) }
+                or { "mkdir", "-p", thumbs_dir }
+            mp.command_native({name = "subprocess", capture_stdout = true, playback_only = false, args = args})
         else
             msg.error(string.format("Thumbnail directory \"%s\" does not exist", thumbs_dir))
         end
@@ -205,7 +212,7 @@ gallery.item_to_border = function(index, item)
     end
 end
 gallery.item_to_text = function(index, item)
-    if not opts.show_text or index ~= gallery.selection then return "", false end
+    if not opts.show_text or (opts.show_selected_title and index ~= gallery.selection) then return "", false end
     local f
     if opts.show_title and item.title then
         f = item.title
@@ -287,6 +294,13 @@ function reload_bindings()
             else
                 pending_selection= index
             end
+        end
+        bindings["MBTN_LEFT_DBL"]  = function()
+            local index = gallery:index_at(mp.get_mouse_pos())
+            if not index then return end
+            pending_selection = index
+            load_selection()
+            if opts.close_on_load_file then stop() end
         end
         bindings["WHEEL_UP"]   = function() increment_func(- gallery.geometry.columns, false) end
         bindings["WHEEL_DOWN"] = function() increment_func(  gallery.geometry.columns, false) end
@@ -578,6 +592,8 @@ end)
 mp.register_script_message("thumbnails-generator-broadcast", function(generator_name)
      gallery:add_generator(generator_name)
 end)
+
+mp.register_script_message("toggle", toggle)
 
 function write_flag_file()
     if next(flags) == nil then return end

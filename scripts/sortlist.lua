@@ -1,3 +1,9 @@
+-- this file is a copy of playlistmanager user script, and is only used
+-- for the sortplaylist function, the rest of the functions SHOULD REMAIN DISABLED
+
+-- if you wish to use the original playlistmanager you can download the unmodified
+-- version from https://github.com/jonniek/mpv-playlistmanager
+
 local settings = {
   --navigation keybindings force override only while playlist is visible
   --if "no" then you can display the playlist by any of the navigation keys
@@ -6,23 +12,34 @@ local settings = {
   -- to bind multiple keys separate them by a space
 
   -- main key to show playlist
-  key_showplaylist = "SHIFT+ENTER",
+  key_showplaylist = "",
 
   -- display playlist while key is held down
   key_peek_at_playlist = "",
 
   -- dynamic keys
-  key_moveup = "UP",
-  key_movedown = "DOWN",
-  key_movepageup = "PGUP",
-  key_movepagedown = "PGDWN",
-  key_movebegin = "HOME",
-  key_moveend = "END",
-  key_selectfile = "RIGHT LEFT",
+  -- key_moveup = "UP",
+  -- key_movedown = "DOWN",
+  -- key_movepageup = "PGUP",
+  -- key_movepagedown = "PGDWN",
+  -- key_movebegin = "HOME",
+  -- key_moveend = "END",
+  -- key_selectfile = "RIGHT LEFT",
+  -- key_unselectfile = "",
+  -- key_playfile = "ENTER",
+  -- key_removefile = "BS",
+  -- key_closeplaylist = "ESC SHIFT+ENTER",
+  key_moveup = "",
+  key_movedown = "",
+  key_movepageup = "",
+  key_movepagedown = "",
+  key_movebegin = "",
+  key_moveend = "",
+  key_selectfile = "",
   key_unselectfile = "",
-  key_playfile = "ENTER",
-  key_removefile = "BS",
-  key_closeplaylist = "ESC SHIFT+ENTER",
+  key_playfile = "",
+  key_removefile = "",
+  key_closeplaylist = "ESC SHIFT+ENTER", -- keep incase the playlist is triggered somehow 
 
   -- extra functionality keys
   key_sortplaylist = "",
@@ -172,7 +189,7 @@ local settings = {
   --paddings for left right and top bottom
   text_padding_x = 30,
   text_padding_y = 60,
-  
+
   --screen dim when menu is open 0.0 - 1.0 (0 is no dim, 1 is black)
   curtain_opacity=0.0,
 
@@ -216,7 +233,7 @@ local settings = {
   display_osd_feedback = true,
 }
 local opts = require("mp.options")
-opts.read_options(settings, "playlistmanager", function(list) update_opts(list) end)
+opts.read_options(settings, "sortlist", function(list) update_opts(list) end)
 
 local utils = require("mp.utils")
 local msg = require("mp.msg")
@@ -248,11 +265,11 @@ end
 if settings.showamount == -1 then
   -- same as draw_playlist() height
   local h = 720
-  
+
   local playlist_h = h
   -- both top and bottom with same padding
   playlist_h = playlist_h - settings.text_padding_y * 2
-  
+
   -- osd-font-size is based on 720p height
   -- see https://mpv.io/manual/stable/#options-osd-font-size 
   -- details in https://mpv.io/manual/stable/#options-sub-font-size
@@ -265,9 +282,9 @@ if settings.showamount == -1 then
       fs = tonumber(ass_fs_tag:match('%d+'))
     end
   end
- 
+
   settings.showamount = math.floor(playlist_h / fs)
-  
+
   -- exclude the header line
   if settings.playlist_header ~= "" then
     settings.showamount = settings.showamount - 1
@@ -279,7 +296,7 @@ if settings.showamount == -1 then
       settings.showamount = settings.showamount - 1
     end
   end
-  
+
   msg.info('auto showamount: ' .. settings.showamount)
 end
 
@@ -360,9 +377,9 @@ if settings.system == "windows" then
       int MultiByteToWideChar(unsigned int CodePage, unsigned long dwFlags, const char *lpMultiByteStr, int cbMultiByte, wchar_t *lpWideCharStr, int cchWideChar);
       int StrCmpLogicalW(const wchar_t * psz1, const wchar_t * psz2);        
     ]]
-   
+
     local shlwapi = ffi.load("shlwapi.dll")
-    
+
     function MultiByteToWideChar(MultiByteStr)
       local UTF8_CODEPAGE = 65001
       if MultiByteStr then
@@ -376,11 +393,11 @@ if settings.system == "windows" then
       end
       return ""
     end
-    
+
     winapisort = function (a, b)
       return shlwapi.StrCmpLogicalW(MultiByteToWideChar(a), MultiByteToWideChar(b)) < 0
     end
-    
+
   end
 end
 ----- winapi end -----
@@ -592,7 +609,7 @@ function get_name_from_index(i, notitle)
   local name = mp.get_property('playlist/'..i..'/filename')
 
   local should_use_title = settings.prefer_titles == 'all' or is_protocol(name) and settings.prefer_titles == 'url'
-  
+
   --check if file has a media title stored
   if not title and should_use_title and title_table[name] then
     title = title_table[name]
@@ -667,7 +684,7 @@ end
 function draw_playlist()
   refresh_globals()
   local ass = assdraw.ass_new()
-	
+
   local _, _, a = mp.get_osd_size()
   local h = 720
   local w = math.ceil(h * a)
@@ -681,7 +698,7 @@ function draw_playlist()
     ass:draw_stop()
     ass:new_event()
   end
-	
+
   ass:append(settings.style_ass_tags)
 
   -- add \clip style
@@ -1072,8 +1089,8 @@ function playlist(force_dir)
   else
     table.sort(files, alphanumsort)
   end
-  
-  
+
+
   if files == nil then
     msg.verbose("no files in directory")
     return
@@ -1634,7 +1651,7 @@ function handlemessage(msg, value, value2)
   if msg == "close" then remove_keybinds() end
 end
 
-mp.register_script_message("playlistmanager", handlemessage)
+mp.register_script_message("sort", sortplaylist)
 
 bind_keys(settings.key_sortplaylist, "sortplaylist", function()
   sortplaylist()

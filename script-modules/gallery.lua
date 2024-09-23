@@ -26,7 +26,9 @@ function gallery_new()
             show_placeholders = true,
             always_show_placeholders = false,
             placeholder_color = '222222',
+            placeholder_opacity = '33',
             text_size = 28,
+            text_border = 1,
             align_text = true,
             accurate = false,
             generate_thumbnails_with_mpv = false,
@@ -276,6 +278,7 @@ function gallery_mt.refresh_placeholders(gallery)
     a:append('{\\bord0}')
     a:append('{\\shad0}')
     a:append('{\\1c&' .. gallery.config.placeholder_color .. '}')
+    a:append('{\\1a&' .. gallery.config.placeholder_opacity .. '}')
     a:pos(0, 0)
     a:draw_start()
     for i = 0, gallery.view.last - gallery.view.first do
@@ -381,8 +384,11 @@ function gallery_mt.refresh_selection(gallery)
             end
             selection_ass:an(an)
             selection_ass:pos(x, y)
+            if gallery.config.text_border ~= 0 then 
+                selection_ass:append("{\\blur1}")
+            end
             selection_ass:append(string.format("{\\fs%d}", gallery.config.text_size))
-            selection_ass:append("{\\bord0}")
+            selection_ass:append("{\\bord"  .. gallery.config.text_border .. '}')
             selection_ass:append(text)
         end
     end
