@@ -61,7 +61,7 @@ Windows `%APPDATA%/mpv.net/`
 
 Download the appropriate [Anime4k](https://github.com/bloc97/Anime4K) shaders for your system and extract **ONLY** the ```shaders``` folder to your mpv config directory
 
-For ```input.conf``` and ```mpv.conf``` copy the text content of these files from the download and add them to the bottom of their respective files in the mpv config
+For ```input.conf``` and ```mpv.conf``` copy the text content of these files from the download and add them to the bottom of their respective files in the mpv config directory
 
 For example your ```mpv.conf``` in you mpv config directory should look similar to this:
 
