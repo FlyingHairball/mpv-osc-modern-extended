@@ -39,11 +39,15 @@ Youtube - TODO
 
 **Make sure to remove any conflicting osc scripts**
 
+<br><br>
+
 Copy all files from this repository into your mpv config directory
 
 Linux `~/.config/mpv/`
 
 Windows `%APPDATA%/mpv/`
+
+<br><br>
 
 If you are using Mpv.net or another version of mpv you need to find the correct directory name
 
@@ -52,6 +56,31 @@ Mpv.net
 Linux `~/.config/mpv.net/`
 
 Windows `%APPDATA%/mpv.net/`
+
+<br><br>
+
+Download the appropriate [Anime4k](https://github.com/bloc97/Anime4K) shaders for your system and extract **ONLY** the ```shaders``` folder to your mpv config directory
+
+For ```input.conf``` and ```mpv.conf``` copy the text content of these files from the download and add them to the bottom of their respective files in the mpv config
+
+For example your ```mpv.conf``` in you mpv config directory should look similar to this:
+
+```batch
+# disable the default osc when using a custom one
+osc=no
+border=no
+loop-playlist=inf
+
+# path to yt-dlp.exe, download from https://github.com/yt-dlp/yt-dlp/releases
+# script-opts=ytdl_hook-ytdl_path="C:\path\to\yt-dlp.exe"
+
+# allow mpv to load youtube playlist links
+ytdl-raw-options=yes-playlist=
+
+# Optimized shaders for lower-end GPU: Mode A (Fast)
+glsl-shaders="~~/shaders/Anime4K_Clamp_Highlights.glsl:~~/shaders/Anime4K_Restore_CNN_M.glsl:~~/shaders/Anime4K_Upscale_CNN_x2_M.glsl:~~/shaders/Anime4K_AutoDownscalePre_x2.glsl:~~/shaders/Anime4K_AutoDownscalePre_x4.glsl:~~/shaders/Anime4K_Upscale_CNN_x2_S.glsl"
+
+```
 
 and you're all done!
 
