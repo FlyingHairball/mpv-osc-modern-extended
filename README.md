@@ -35,7 +35,7 @@ Make sure to add all dependencies to [Environment Variables Path](https://helpde
 
 ### Install
 
-Youtube - TODO
+Youtube Tutorial - [How to Watch Anime in 4K](https://youtu.be/Me4UGrZ9S9A)
 
 **Make sure to remove any conflicting osc scripts**
 
