@@ -29,7 +29,7 @@ https://github.com/user-attachments/assets/5f2329cd-69c2-4a0d-8cb0-d540266741e6
 
 - [ffmpeg](https://ffmpeg.org/download.html) for slicing video
 - [yt-dlp.exe](https://github.com/yt-dlp/yt-dlp/releases/tag/2024.08.06) for streaming from youtube url's
-- [MPV Standalone](https://mpv.io/installation/) (optional) ThumbFast will not work properly if you are on mpv.net without this ([Refrence](https://mpv.io/installation/))
+- [MPV Standalone](https://mpv.io/installation/) (optional) ThumbFast will not work properly if you are on mpv.net without this ([Refrence](https://github.com/po5/thumbfast?tab=readme-ov-file#mpv-frontends))
 
 Make sure to add all dependencies to [Environment Variables Path](https://helpdeskgeek.com/windows-10/add-windows-path-environment-variable/)
 
