@@ -12,10 +12,11 @@ This osc is a fork of [ModernF](https://github.com/FinnRaze/mpv-osc-modern-f) th
 
 <!--![image](https://github.com/user-attachments/assets/bb1889a9-e2b1-42cb-b7c0-244e83f62e10)-->
 
-With [Anime4K](https://github.com/bloc97/Anime4K) watch peak cinema with upscaling in real time (Ctrl+`0-6`, artifacting in gif is from video capture software, it looks much cleaner in player I swear :sob:) 
+With [Anime4K](https://github.com/bloc97/Anime4K) upscale peak cinema in real time (Ctrl+`0-6`)
 
-![extended-07](https://github.com/user-attachments/assets/bbba504f-d59e-45d1-903c-8c68f3c5e0e1)
+<!--![extended-07](https://github.com/user-attachments/assets/bbba504f-d59e-45d1-903c-8c68f3c5e0e1)-->
 <!--![extended-15](https://github.com/user-attachments/assets/85ff76b5-b38f-44a1-b5da-3c3f4c8c40ad)-->
+<img width="2560" height="1440" alt="extended-19" src="https://github.com/user-attachments/assets/9975914c-255c-4491-81c4-66d2f714ab87" />
 
 Found a great clip you would like to use? [MpvSlicingCopy](https://github.com/snylonue/mpv_slicing_copy) will allow you to crop it out in a matter of seconds (shortcut `c`)
 
